@@ -1,3 +1,4 @@
+//app/page.tsx
 import Image from "next/image";
 import Link from "next/link";
 import { Bricolage_Grotesque, Figtree } from "next/font/google";

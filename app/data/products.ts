@@ -1,3 +1,4 @@
+//app/data/products.ts
 export type Product = {
   slug: string;
   name: string;
