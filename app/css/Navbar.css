@@ -1,0 +1,42 @@
+/* Sits on top of the hero, so it inherits the hero's text color (it changes with the active can). */
+.py-nav {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.4rem var(--gut);
+  color: inherit;
+}
+
+.py-nav .py-logo {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  font-size: 1.9rem;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.py-nav nav {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.py-nav nav a:not(.btn) {
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.py-nav nav a:not(.btn):hover {
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .py-nav nav a:not(.btn) {
+    display: none;
+  }
+}

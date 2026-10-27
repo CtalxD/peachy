@@ -28,12 +28,12 @@ button { cursor: pointer; }
   letter-spacing: -0.035em;
 }
 
-/* ---------- buttons ---------- */
+/* ---------- buttons (square corners) ---------- */
 .py-page .btn {
   --btn-bg: var(--plum); --btn-fg: #f3ebe6;
   position: relative; isolation: isolate; overflow: hidden;
   display: inline-flex; align-items: center; justify-content: center;
-  height: 3.2rem; padding: 0 1.7rem; border: 0; border-radius: 999px; line-height: 1; text-align: center;
+  height: 3.2rem; padding: 0 1.7rem; border: 0; border-radius: 0; line-height: 1; text-align: center;
   font-family: var(--font-body), sans-serif; font-weight: 650; font-size: 1rem; letter-spacing: 0;
   background: var(--btn-bg); color: var(--btn-fg); white-space: nowrap;
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.2s ease, color 0.2s ease;
@@ -62,33 +62,67 @@ button { cursor: pointer; }
 .py-page .btn-outline { background: rgba(243, 235, 230, 0.06); color: #f3ebe6; box-shadow: inset 0 0 0 1.5px rgba(243, 235, 230, 0.45); backdrop-filter: blur(6px); }
 .btn-outline:hover { background: rgba(243, 235, 230, 0.16); box-shadow: inset 0 0 0 1.5px #f3ebe6; transform: translateY(-2px); }
 
-/* ---------- nav ---------- */
-.py-nav { position: absolute; inset: 0 0 auto 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; padding: 1.4rem var(--gut); color: #f3ebe6; }
-.py-logo { font-family: var(--font-display), sans-serif; font-weight: 700; font-size: 1.9rem; line-height: 1; letter-spacing: -0.04em; }
-.py-nav nav { display: flex; align-items: center; gap: 1.75rem; font-weight: 500; font-size: 0.95rem; }
-.py-nav nav a:not(.btn) { opacity: 0.8; transition: opacity 0.2s; }
-.py-nav nav a:not(.btn):hover { opacity: 1; }
-
 /* ---------- hero ---------- */
-.py-hero { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; min-height: 100svh; padding: 7rem var(--gut) 4rem; gap: 2rem; background: #1a0b14; color: #f3ebe6; }
+.py-hero { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; min-height: 100svh; padding: 7rem var(--gut) 4rem; gap: 2rem; background: var(--bg); color: var(--hero-ink, #f3ebe6); transition: color 0.7s ease; }
 .py-heroBg { position: absolute; inset: 0; z-index: -2; opacity: 0; transition: opacity 0.7s ease; }
 .py-heroBg.is-on { opacity: 1; }
 .py-hero h1 { font-size: clamp(3rem, 6.4vw, 6rem); line-height: 0.98; max-width: 10em; margin-bottom: 1.5rem; }
-.py-heroLine { max-width: 30rem; min-height: 5.2em; font-size: 1.1rem; color: #e2d5da; margin-bottom: 2rem; animation: fadeUp 0.5s ease both; }
-.py-heroLine strong { color: #fff; font-weight: 650; }
-.py-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem; margin-bottom: 2.75rem; }
+.py-heroLine { max-width: 30rem; min-height: 5.2em; font-size: 1.1rem; color: var(--hero-ink-soft, #e2d5da); margin-bottom: 2rem; animation: fadeUp 0.5s ease both; }
+.py-heroLine strong { color: var(--hero-ink, #fff); font-weight: 650; }
+.py-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem; }
 
-.py-picker { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-.py-pick { display: flex; align-items: center; gap: 0.7rem; height: 4.25rem; padding: 0 1.25rem 0 0.9rem; border: 0; border-radius: 18px; background: rgba(243, 235, 230, 0.07); box-shadow: inset 0 0 0 1px rgba(243, 235, 230, 0.2); color: #f3ebe6; font-weight: 600; font-size: 1rem; transition: background 0.2s, box-shadow 0.2s, transform 0.2s; }
-.py-pick img { height: 2.9rem; width: auto; transition: transform 0.25s ease; }
-.py-pick:hover { background: rgba(243, 235, 230, 0.15); transform: translateY(-2px); }
-.py-pick:hover img { transform: rotate(-8deg) scale(1.08); }
-.py-pick[aria-pressed="true"] { background: rgba(243, 235, 230, 0.2); box-shadow: inset 0 0 0 2px #f3ebe6; }
+/* hero text and controls follow the active flavor's ink colors (set in Hero.tsx) */
+.py-hero :focus-visible { outline-color: var(--hero-ink); }
 
-.py-heroArt { position: relative; display: grid; place-items: center; perspective: 1100px; min-height: 30rem; }
-.py-heroGlow { position: absolute; width: 60%; aspect-ratio: 1; border-radius: 50%; filter: blur(70px); opacity: 0.55; transition: background 0.7s ease; }
-.py-heroTilt { position: relative; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform 0.25s ease-out; transform-style: preserve-3d; }
-.py-heroCan { display: block; height: min(70svh, 620px); width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 40px 40px rgba(0, 0, 0, 0.5)); animation: canIn 0.7s cubic-bezier(0.2, 0.9, 0.3, 1) both, float 6s ease-in-out 0.7s infinite; }
+/* light backgrounds (Classic, Jasmine): solid ink-colored primary button, outlined secondary */
+.py-page .py-hero[data-tone="light"] .btn-light {
+  background: var(--hero-ink);
+  color: #f7f3ee;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 8px 18px -6px rgba(0, 0, 0, 0.35);
+}
+.py-page .py-hero[data-tone="light"] .btn-light:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25), 0 14px 24px -8px rgba(0, 0, 0, 0.4);
+}
+.py-page .py-hero[data-tone="light"] .btn-outline {
+  background: transparent;
+  color: var(--hero-ink);
+  box-shadow: inset 0 0 0 2px var(--hero-ink);
+}
+.py-page .py-hero[data-tone="light"] .btn-outline:hover {
+  background: color-mix(in srgb, var(--hero-ink) 10%, transparent);
+}
+
+/* hero art: same hover as the flavor cards (glow, lift, tilt) */
+.py-heroArt { position: relative; display: grid; place-items: center; min-height: 30rem; }
+.py-heroArt::before { content: ""; position: absolute; top: 50%; left: 50%; translate: -50% -50%; width: 60%; aspect-ratio: 1; border-radius: 50%; background: rgba(255, 255, 255, 0.35); filter: blur(40px); opacity: 0; transition: opacity 0.35s; }
+.py-heroArt:hover::before { opacity: 1; }
+.py-heroCan { position: relative; display: block; height: min(70svh, 620px); width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 30px 28px rgba(0, 0, 0, 0.35)); transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1), filter 0.35s ease; animation: canIn 0.7s cubic-bezier(0.2, 0.9, 0.3, 1) both, float 6s ease-in-out 0.7s infinite; }
+.py-heroArt:hover .py-heroCan { transform: translateY(-14px) rotate(3deg) scale(1.04); filter: drop-shadow(0 46px 34px rgba(0, 0, 0, 0.38)); }
+
+/* prev / next arrows: small circles, 44px touch target */
+.py-arrow {
+  position: absolute; top: 0; bottom: 0; margin: auto 0; z-index: 3;
+  display: grid; place-items: center;
+  width: 2.75rem; height: 2.75rem; padding: 0;
+  border: 0; border-radius: 50%;
+  color: var(--hero-ink);
+  background: color-mix(in srgb, var(--hero-ink) 12%, transparent);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--hero-ink) 45%, transparent);
+  backdrop-filter: blur(6px);
+  transition: transform 0.18s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+.py-arrowPrev { left: 0; }
+.py-arrowNext { right: 0; }
+.py-arrow svg { transition: translate 0.2s ease; }
+.py-arrow:hover {
+  background: color-mix(in srgb, var(--hero-ink) 22%, transparent);
+  box-shadow: inset 0 0 0 1.5px var(--hero-ink);
+  transform: scale(1.06);
+}
+.py-arrowPrev:hover svg { translate: -2px 0; }
+.py-arrowNext:hover svg { translate: 2px 0; }
+.py-arrow:active { transform: scale(0.95); }
+
 @keyframes canIn { from { opacity: 0; translate: 0 36px; scale: 0.94; } }
 @keyframes float { 50% { translate: 0 -10px; } }
 @keyframes fadeUp { from { opacity: 0; translate: 0 8px; } }
@@ -98,16 +132,20 @@ button { cursor: pointer; }
 .py-section h2, .py-find h2 { font-size: clamp(2.2rem, 4.4vw, 4rem); line-height: 1.02; max-width: 14em; margin-bottom: 1.25rem; }
 .py-sub { color: var(--plum-soft); max-width: 36rem; margin-bottom: 3.5rem; }
 
-.py-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
-.py-stage { display: grid; place-items: end center; height: 30rem; padding-bottom: 2rem; border-radius: 20px; margin-bottom: 1.5rem; }
-.py-stageClassic { background: linear-gradient(180deg, #f1d9d4, #dfb8b3); }
-.py-stageJasmine { background: linear-gradient(180deg, #c9d9c2, #9db592); }
-.py-stageGinger { background: linear-gradient(180deg, #5a3347, #2b1423); }
-.py-cardCan { transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1), filter 0.35s ease; height: 25rem; width: auto; object-fit: contain; filter: drop-shadow(0 22px 18px rgba(0, 0, 0, 0.35)); }
-.py-cardHead { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem; }
+/* flavor cards: equal height, with each row of content lined up across cards */
+.py-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; align-items: stretch; }
+.py-card { display: flex; flex-direction: column; min-width: 0; }
+.py-stage { position: relative; overflow: hidden; display: grid; place-items: end center; height: 30rem; flex: none; padding-bottom: 2rem; border-radius: 20px; margin-bottom: 1.5rem; }
+.py-stage::before { content: ""; position: absolute; top: 50%; left: 50%; translate: -50% -50%; width: 70%; aspect-ratio: 1; border-radius: 50%; background: rgba(255, 255, 255, 0.35); filter: blur(40px); opacity: 0; transition: opacity 0.35s; }
+.py-cardCan { position: relative; transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1), filter 0.35s ease; height: 25rem; width: auto; object-fit: contain; filter: drop-shadow(0 22px 18px rgba(0, 0, 0, 0.35)); }
+.py-card:hover .py-stage::before { opacity: 1; }
+.py-card:hover .py-cardCan { transform: translateY(-14px) rotate(3deg) scale(1.04); filter: drop-shadow(0 34px 24px rgba(0, 0, 0, 0.38)); }
+
+.py-cardHead { display: flex; flex-direction: column; gap: 0.45rem; margin-bottom: 1rem; }
 .py-card h3 { font-size: 2.1rem; line-height: 1; }
-.py-cardHead span { font-size: 0.9rem; color: var(--plum-soft); }
-.py-card > p { color: var(--plum-soft); max-width: 25rem; margin-bottom: 1.4rem; }
+.py-cardHead span { font-size: 0.95rem; line-height: 1.4; color: var(--plum-soft); }
+.py-cardLine { flex: 1 1 auto; color: var(--plum-soft); max-width: 25rem; margin-bottom: 1.4rem; }
+.py-meters { flex: none; }
 .py-meters > div { display: grid; grid-template-columns: 4.5rem 1fr; align-items: center; padding: 0.55rem 0; border-top: 1px solid rgba(43, 20, 35, 0.18); }
 .py-meters dt { font-weight: 600; font-size: 0.95rem; }
 .py-card meter { width: 100%; height: 8px; }
@@ -115,14 +153,13 @@ button { cursor: pointer; }
 .py-card meter::-webkit-meter-optimum-value { background: var(--rose); border-radius: 99px; }
 .py-card meter::-moz-meter-bar { background: var(--rose); border-radius: 99px; }
 
-
-
 .py-brew ol { list-style: none; padding: 0; margin-top: 3rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
 .py-brew li { border-top: 2px solid var(--plum); padding-top: 1.5rem; }
 .py-brew li span { display: block; font-family: var(--font-display), sans-serif; font-weight: 700; letter-spacing: -0.05em; font-size: clamp(3.6rem, 7vw, 6rem); line-height: 1; color: var(--rose); margin-bottom: 1rem; }
 .py-brew h3 { font-size: 1.8rem; margin-bottom: 0.4rem; }
 .py-brew li p { color: var(--plum-soft); max-width: 24rem; }
-
+.py-brewNote { margin-top: 3rem; color: var(--plum-soft); max-width: 40rem; }
+.py-brewNote b { color: var(--plum); }
 
 .py-faq { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 4rem; align-items: start; }
 .py-faq details { border-top: 1px solid rgba(43, 20, 35, 0.2); }
@@ -136,35 +173,30 @@ button { cursor: pointer; }
 .py-find { display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: center; background: var(--plum); color: #f3ebe6; padding: 7rem var(--gut); }
 .py-find p { color: #d9cbd0; max-width: 26rem; }
 .py-find label { display: block; font-weight: 600; margin-bottom: 0.6rem; }
-.py-field { display: flex; background: #f3ebe6; border-radius: 999px; padding: 0.35rem; }
+.py-field { display: flex; background: #f3ebe6; border-radius: 0; padding: 0.35rem; }
 .py-field:focus-within { box-shadow: 0 0 0 3px var(--rose); }
 .py-field input { flex: 1; min-width: 0; background: transparent; border: 0; outline: 0; padding: 0.7rem 1.1rem; color: var(--plum); }
 .py-field input::placeholder { color: rgba(43, 20, 35, 0.5); }
 
-.py-footer { background: var(--plum); color: #b9a8b0; border-top: 1px solid rgba(243, 235, 230, 0.15); padding: 3rem var(--gut) 1.5rem; }
-.py-footTop { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1.5rem; margin-bottom: 2.5rem; color: #f3ebe6; }
-.py-footTop nav { display: flex; flex-wrap: wrap; gap: 1.75rem; }
-.py-footMeta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; font-size: 0.9rem; }
-
 @media (max-width: 900px) {
   .py-hero, .py-find, .py-grid, .py-brew ol, .py-faq { grid-template-columns: 1fr; }
   .py-hero { padding-top: 6rem; min-height: auto; }
-  
-  .py-nav nav a:not(.btn) { display: none; }
+  .py-heroLine { min-height: 0; }
+  .py-heroArt { min-height: 0; }
+  .py-heroCan { height: 440px; }
   .py-section { padding: 5rem var(--gut); }
   .py-find, .py-faq { gap: 2.5rem; }
 }
-@media (max-width: 520px) { .py-field { flex-direction: column; border-radius: 22px; gap: 0.4rem; } .py-field .btn { width: 100%; } }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .py-heroCan { animation: none; } .btn::after { display: none; } }
-
-.py-brewNote { margin-top: 3rem; color: var(--plum-soft); max-width: 40rem; }
-.py-brewNote b { color: var(--plum); }
-
-.py-stage { position: relative; overflow: hidden; }
-.py-stage::before { content: ""; position: absolute; width: 70%; aspect-ratio: 1; border-radius: 50%; background: rgba(255, 255, 255, 0.35); filter: blur(40px); opacity: 0; transition: opacity 0.35s; }
-.py-card:hover .py-stage::before { opacity: 1; }
-.py-card:hover .py-cardCan { transform: translateY(-14px) rotate(3deg) scale(1.04); filter: drop-shadow(0 34px 24px rgba(0, 0, 0, 0.38)); }
-.py-cardCan { position: relative; }
-@media (max-width: 900px) { .py-heroLine { min-height: 0; } .py-heroArt { min-height: 0; } .py-heroCan { height: 440px; } .py-btn-fix { display: none; } }
-@media (max-width: 520px) { .btn-lg { min-width: 0; flex: 1 1 100%; } .py-pick { flex: 1 1 auto; } }
-@media (prefers-reduced-motion: reduce) { .py-heroCan, .py-heroLine { animation: none; } .py-heroTilt { transform: none; } .py-card:hover .py-cardCan { transform: none; } }
+@media (max-width: 520px) {
+  .py-field { flex-direction: column; gap: 0.4rem; }
+  .py-field .btn { width: 100%; }
+  .btn-lg { min-width: 0; flex: 1 1 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .py-heroCan, .py-heroLine { animation: none; }
+  .btn::after { display: none; }
+  .py-heroArt:hover .py-heroCan, .py-card:hover .py-cardCan { transform: none; }
+  .py-arrow:hover, .py-arrow:active { transform: none; }
+  .py-arrowPrev:hover svg, .py-arrowNext:hover svg { translate: none; }
+}

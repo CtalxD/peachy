@@ -1,4 +1,4 @@
-//app/data/products.ts
+// app/data/products.ts
 export type Product = {
   slug: string;
   name: string;
@@ -9,9 +9,22 @@ export type Product = {
   sweet: number;
   image: string;
   hero: string;
-  stage: string;
-  theme: { a: string; b: string; glow: string };
+  /** Gradient stops shared by the hero and the flavor card stage. */
+  bg: { from: string; to: string };
+  /** Brightness of `bg`: "light" backgrounds get dark text, "dark" ones get light text. */
+  tone: "light" | "dark";
+  /** Hero heading and control color, tuned for this flavor's background (WCAG AA). */
+  ink: string;
+  /** Hero body text color, tuned for this flavor's background (WCAG AA). */
+  inkSoft: string;
 };
+
+/**
+ * Real pixel size of the can PNGs in /public. Keep in sync with the
+ * `aspect-ratio` lines for .py-heroCan and .py-cardCan in globals.css.
+ */
+export const CAN_W = 800;
+export const CAN_H = 1200;
 
 /* Single source of truth. The /shop and /shop/[slug] pages can import this later. */
 export const products: Product[] = [
@@ -23,8 +36,10 @@ export const products: Product[] = [
     tea: 4, peach: 4, sweet: 2,
     image: "/Classic.png",
     hero: "/Classic.png",
-    theme: { a: "#2b1423", b: "#1a0b14", glow: "#6a3550" },
-    stage: "py-stageClassic",
+    bg: { from: "#f1d9d4", to: "#dfb8b3" },
+    tone: "light",
+    ink: "#3a1520",      // deep wine on pink
+    inkSoft: "#5a2f36",
   },
   {
     slug: "jasmine",
@@ -34,8 +49,10 @@ export const products: Product[] = [
     tea: 2, peach: 3, sweet: 2,
     image: "/Jasmine.png",
     hero: "/Jasmine.png",
-    theme: { a: "#16281a", b: "#0d1a10", glow: "#3f6a47" },
-    stage: "py-stageJasmine",
+    bg: { from: "#c9d9c2", to: "#9db592" },
+    tone: "light",
+    ink: "#16301b",      // deep forest on green
+    inkSoft: "#2a4228",
   },
   {
     slug: "ginger",
@@ -45,7 +62,13 @@ export const products: Product[] = [
     tea: 4, peach: 3, sweet: 1,
     image: "/Ginger.png",
     hero: "/Ginger.png",
-    theme: { a: "#3a0f1c", b: "#220811", glow: "#9a3550" },
-    stage: "py-stageGinger",
+    bg: { from: "#5a3347", to: "#2b1423" },
+    tone: "dark",
+    ink: "#f3ebe6",
+    inkSoft: "#e2d5da",
   },
 ];
+
+/** The exact gradient used behind a can, in the hero and in the flavor cards. */
+export const stageGradient = (p: Product) =>
+  `linear-gradient(180deg, ${p.bg.from}, ${p.bg.to})`;

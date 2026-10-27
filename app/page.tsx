@@ -2,8 +2,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Bricolage_Grotesque, Figtree } from "next/font/google";
-import { products } from "./data/products";
+import { products, stageGradient } from "./data/products";
 import { Hero } from "./components/Hero";
+import { Navbar } from "./components/Navbar";
+import { Footer } from "./components/Footer";
 
 const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-display" });
 const body = Figtree({ subsets: ["latin"], variable: "--font-body" });
@@ -23,18 +25,8 @@ const faqs = [
 export default function Page() {
   return (
     <div className={`py-page ${display.variable} ${body.variable}`}>
-      <header className="py-nav">
-        <Link href="/" className="py-logo">Peachy</Link>
-        <nav aria-label="Primary">
-          <a href="#flavors">Flavors</a>
-          <a href="#brew">How it&rsquo;s made</a>
-          <a href="#faq">Questions</a>
-          <Link href="/shop" className="btn btn-light btn-sm">Shop</Link>
-        </nav>
-      </header>
-
       <main id="top">
-        <Hero />
+        <Hero nav={<Navbar />} />
 
         <section id="flavors" className="py-section">
           <h2>Same peach, three teas underneath.</h2>
@@ -42,14 +34,14 @@ export default function Page() {
           <div className="py-grid">
             {products.map((p) => (
               <article key={p.slug} className="py-card">
-                <div className={`py-stage ${p.stage}`}>
+                <div className="py-stage" style={{ background: stageGradient(p) }}>
                   <Image src={p.image} alt={`Peachy ${p.name} iced tea can`} width={400} height={800} className="py-cardCan" />
                 </div>
                 <div className="py-cardHead">
                   <h3>{p.name}</h3>
                   <span>{p.notes}</span>
                 </div>
-                <p>{p.line}</p>
+                <p className="py-cardLine">{p.line}</p>
                 <dl className="py-meters">
                   {([["Tea", p.tea], ["Peach", p.peach], ["Sweet", p.sweet]] as const).map(([k, v]) => (
                     <div key={k}>
@@ -101,20 +93,7 @@ export default function Page() {
         </section>
       </main>
 
-      <footer className="py-footer">
-        <div className="py-footTop">
-          <Link href="/" className="py-logo">Peachy</Link>
-          <nav aria-label="Footer">
-            <Link href="/shop">Shop</Link>
-            <a href="#flavors">Flavors</a>
-            <a href="#faq">Questions</a>
-          </nav>
-        </div>
-        <div className="py-footMeta">
-          <span>Canned iced tea. Serve cold.</span>
-          <span>&copy; {new Date().getFullYear()} Peachy</span>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
