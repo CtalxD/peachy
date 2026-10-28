@@ -1,4 +1,4 @@
-// app/components/Footer.tsx
+//app/components/Footer.tsx
 import Link from "next/link";
 import "../css/Footer.css";
 
@@ -9,8 +9,8 @@ export function Footer() {
         <Link href="/" className="py-logo">Peachy</Link>
         <nav aria-label="Footer">
           <Link href="/shop">Shop</Link>
-          <a href="#flavors">Flavors</a>
-          <a href="#faq">Questions</a>
+          <Link href="/#flavors">Flavors</Link>
+          <Link href="/#faq">Questions</Link>
         </nav>
       </div>
       <div className="py-footMeta">

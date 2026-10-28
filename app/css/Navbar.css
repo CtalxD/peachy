@@ -6,8 +6,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.4rem var(--gut);
+  gap: 1rem;
+  padding: 1.4rem var(--edge);
   color: inherit;
+}
+
+/* Non-hero pages (shop): a normal bar in the page flow */
+.py-nav--solid {
+  position: relative;
+  inset: auto;
+  color: var(--plum);
+  background: var(--bg);
+  border-bottom: 1px solid rgba(43, 20, 35, 0.15);
+}
+
+.py-page header.py-nav--solid nav a.btn.btn-light {
+  background: var(--plum);
+  color: #f3ebe6;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 8px 18px -6px rgba(0, 0, 0, 0.35);
 }
 
 .py-nav .py-logo {
@@ -35,8 +51,87 @@
   opacity: 1;
 }
 
+/* hamburger button (hidden on desktop) */
+.py-navToggle {
+  display: none;
+  position: relative;
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: inherit;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, currentColor 45%, transparent);
+}
+
+.py-navToggle span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1.1rem;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  translate: -50% -50%;
+  transition: translate 0.2s ease, rotate 0.2s ease;
+}
+
+.py-navToggle span:first-child { translate: -50% calc(-50% - 4px); }
+.py-navToggle span:last-child { translate: -50% calc(-50% + 4px); }
+.is-open .py-navToggle span:first-child { translate: -50% -50%; rotate: 45deg; }
+.is-open .py-navToggle span:last-child { translate: -50% -50%; rotate: -45deg; }
+
 @media (max-width: 900px) {
-  .py-nav nav a:not(.btn) {
-    display: none;
+  .py-navToggle { display: block; }
+
+  /* dropdown panel */
+  .py-nav nav {
+    position: absolute;
+    top: calc(100% - 0.4rem);
+    right: var(--edge);
+    width: min(22rem, calc(100% - 2 * var(--edge)));
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.75rem 1.25rem 1.25rem;
+    background: var(--bg);
+    color: var(--plum);
+    box-shadow: 0 20px 40px -12px rgba(43, 20, 35, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 -8px;
+    transition: opacity 0.2s ease, translate 0.2s ease, visibility 0s linear 0.2s;
   }
+
+  .py-nav.is-open nav {
+    opacity: 1;
+    visibility: visible;
+    translate: 0;
+    transition-delay: 0s;
+  }
+
+  .py-nav--solid nav { top: calc(100% + 0.25rem); }
+
+  .py-nav nav a:not(.btn) {
+    display: block;
+    opacity: 1;
+    padding: 1rem 0;
+    font-size: 1.05rem;
+    border-bottom: 1px solid rgba(43, 20, 35, 0.15);
+  }
+
+  .py-page header.py-nav nav a.btn.btn-light {
+    margin-top: 1rem;
+    height: 3rem;
+    background: var(--plum);
+    color: #f3ebe6;
+  }
+
+  .py-page .py-nav nav :focus-visible { outline-color: #b5213f; }
+}
+
+@media (max-width: 380px) {
+  .py-nav .py-logo { font-size: 1.6rem; }
 }

@@ -1,4 +1,3 @@
-// app/data/products.ts
 export type Product = {
   slug: string;
   name: string;
@@ -7,6 +6,12 @@ export type Product = {
   tea: number;
   peach: number;
   sweet: number;
+  /** Price in USD for one 12 fl oz can. Placeholder values, replace with real ones. */
+  price: number;
+  /** Tea base, used by the shop filter. */
+  type: "black" | "green";
+  /** Small label shown on the shop card. */
+  tag: string;
   image: string;
   hero: string;
   /** Gradient stops shared by the hero and the flavor card stage. */
@@ -26,7 +31,7 @@ export type Product = {
 export const CAN_W = 800;
 export const CAN_H = 1200;
 
-/* Single source of truth. The /shop and /shop/[slug] pages can import this later. */
+/* Single source of truth for the landing page, the shop and the cart. */
 export const products: Product[] = [
   {
     slug: "classic",
@@ -34,6 +39,9 @@ export const products: Product[] = [
     line: "Assam black tea steeped long, white peach pressed in at the end. Start here.",
     notes: "Malty, ripe, clean finish",
     tea: 4, peach: 4, sweet: 2,
+    price: 3.5,
+    type: "black",
+    tag: "Best seller",
     image: "/Classic.png",
     hero: "/Classic.png",
     bg: { from: "#f1d9d4", to: "#dfb8b3" },
@@ -47,6 +55,9 @@ export const products: Product[] = [
     line: "Green tea layered with jasmine blossom. Quiet and floral; the peach arrives on the finish.",
     notes: "Floral, light, soft peach",
     tea: 2, peach: 3, sweet: 2,
+    price: 3.5,
+    type: "green",
+    tag: "Lightest",
     image: "/Jasmine.png",
     hero: "/Jasmine.png",
     bg: { from: "#c9d9c2", to: "#9db592" },
@@ -60,6 +71,9 @@ export const products: Product[] = [
     line: "Strong black tea with fresh ginger that bites a little. Peach softens it without sweetening it away.",
     notes: "Bold, warming, dry",
     tea: 4, peach: 3, sweet: 1,
+    price: 3.75,
+    type: "black",
+    tag: "Boldest",
     image: "/Ginger.png",
     hero: "/Ginger.png",
     bg: { from: "#5a3347", to: "#2b1423" },
@@ -72,3 +86,33 @@ export const products: Product[] = [
 /** The exact gradient used behind a can, in the hero and in the flavor cards. */
 export const stageGradient = (p: Product) =>
   `linear-gradient(180deg, ${p.bg.from}, ${p.bg.to})`;
+
+/* ---------- shop ---------- */
+
+export type Pack = {
+  id: "4" | "12" | "24";
+  cans: number;
+  label: string;
+  /** Discount off the single-can price, 0.1 = 10%. */
+  off: number;
+};
+
+export const packs: Pack[] = [
+  { id: "4", cans: 4, label: "4-pack", off: 0 },
+  { id: "12", cans: 12, label: "12-pack", off: 0.1 },
+  { id: "24", cans: 24, label: "24-pack", off: 0.15 },
+];
+
+/** Orders at or above this subtotal ship free. */
+export const FREE_SHIPPING_AT = 30;
+
+export const money = (n: number) => `$${n.toFixed(2)}`;
+
+export const packPrice = (unit: number, pack: Pack) =>
+  Math.round(unit * pack.cans * (1 - pack.off) * 100) / 100;
+
+/** Variety pack: 12 cans, 4 of each flavor, at the 12-pack discount. */
+export const VARIETY_CANS = 12;
+const avgUnit = products.reduce((sum, p) => sum + p.price, 0) / products.length;
+export const varietyPrice =
+  Math.round(avgUnit * VARIETY_CANS * (1 - packs[1].off) * 100) / 100;

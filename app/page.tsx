@@ -1,14 +1,10 @@
 //app/page.tsx
 import Image from "next/image";
 import Link from "next/link";
-import { Bricolage_Grotesque, Figtree } from "next/font/google";
 import { products, stageGradient } from "./data/products";
 import { Hero } from "./components/Hero";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
-
-const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-display" });
-const body = Figtree({ subsets: ["latin"], variable: "--font-body" });
 
 const steps = [
   ["95°C", "Steep", "Whole leaves in water just off the boil, left alone for four minutes. Longer turns it bitter."],
@@ -24,7 +20,7 @@ const faqs = [
 
 export default function Page() {
   return (
-    <div className={`py-page ${display.variable} ${body.variable}`}>
+    <div className="py-page">
       <main id="top">
         <Hero nav={<Navbar />} />
 
@@ -50,7 +46,7 @@ export default function Page() {
                     </div>
                   ))}
                 </dl>
-                <Link href={`/shop/${p.slug}`} className="btn btn-solid btn-block">Shop {p.name}</Link>
+                <Link href={`/shop`} className="btn btn-solid btn-block">Shop {p.name}</Link>
               </article>
             ))}
           </div>

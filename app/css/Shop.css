@@ -1,0 +1,109 @@
+/* ---------- shop hero / selector ---------- */
+.sp-hero {
+  --hero-on: #f7f3ee;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  gap: 2rem;
+  min-height: 100svh;
+  padding: 7rem var(--edge) 4rem;
+  color: var(--hero-ink);
+  transition: color 0.7s ease;
+}
+.sp-hero[data-tone="dark"] { --hero-on: #2b1423; }
+.sp-hero.has-cart { padding-bottom: 9rem; }
+.sp-hero > * { min-width: 0; }
+.sp-hero :focus-visible { outline-color: var(--hero-ink); }
+
+.sp-bg { position: absolute; inset: 0; z-index: -2; opacity: 0; transition: opacity 0.7s ease; }
+.sp-bg.is-on { opacity: 1; }
+
+.sp-copy h1 { font-size: clamp(2.6rem, 6vw, 5.5rem); line-height: 0.98; margin-bottom: 0.75rem; overflow-wrap: break-word; }
+.sp-text { animation: fadeUp 0.5s ease both; }
+.sp-notes { font-weight: 650; margin-bottom: 0.75rem; }
+.sp-line { max-width: 30rem; min-height: 5.2em; color: var(--hero-ink-soft); margin-bottom: 1.5rem; }
+.sp-price { font-family: var(--font-display), serif; font-weight: 600; font-size: 2rem; letter-spacing: -0.03em; line-height: 1; margin-bottom: 1.25rem; }
+.sp-price span { font-family: var(--font-body), sans-serif; font-weight: 400; font-size: 0.95rem; letter-spacing: 0; color: var(--hero-ink-soft); }
+
+/* flavor switch (mirrors clicking a can) */
+.sp-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+.sp-chip {
+  height: 2.5rem; padding: 0 1.2rem; border: 0; border-radius: 0;
+  background: transparent; color: var(--hero-ink); font-weight: 600; font-size: 0.95rem;
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--hero-ink) 45%, transparent);
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+.sp-chip:hover { box-shadow: inset 0 0 0 1.5px var(--hero-ink); }
+.sp-chip[aria-pressed="true"] { background: var(--hero-ink); color: var(--hero-on); box-shadow: none; }
+
+.py-page .sp-hero .sp-add { min-width: 14rem; background: var(--hero-ink); color: var(--hero-on); box-shadow: 0 1px 2px rgba(0,0,0,.25), 0 8px 18px -6px rgba(0,0,0,.35); }
+.py-page .sp-hero .py-nav nav a.btn.btn-light { background: var(--hero-ink); color: var(--hero-on); }
+
+/* can trio: the selected can is in front.
+   Centering uses -50% (works for any image width).
+   The side offset is a fixed length based on the trio height (--h),
+   so it is the same no matter which PNG is on the side. */
+.sp-cans { --h: min(62svh, 34rem); position: relative; height: var(--h); width: 100%; }
+.sp-can {
+  --x: 0px;
+  --y: 0px;
+  --r: 0deg;
+  --s: 1;
+  position: absolute; bottom: 0; left: 50%;
+  height: 100%; width: auto; padding: 0; border: 0; background: none;
+  transform-origin: 50% 100%;
+  transform: translateX(calc(-50% + var(--x))) scale(var(--s)) rotate(var(--r)) translateY(var(--y));
+  transition: transform 0.55s cubic-bezier(0.2, 0.9, 0.3, 1), filter 0.4s ease;
+  filter: drop-shadow(0 28px 24px rgba(0, 0, 0, 0.35));
+}
+.sp-can img { display: block; height: 100%; width: auto; object-fit: contain; pointer-events: none; }
+
+.sp-can[data-pos="front"] { z-index: 3; cursor: default; }
+.sp-can[data-pos="left"],
+.sp-can[data-pos="right"] {
+  --s: 0.72;
+  z-index: 1;
+  cursor: pointer;
+  filter: drop-shadow(0 18px 16px rgba(0, 0, 0, 0.3)) brightness(0.92);
+}
+.sp-can[data-pos="left"] { --x: calc(var(--h) * -0.5); --r: -7deg; }
+.sp-can[data-pos="right"] { --x: calc(var(--h) * 0.5); --r: 7deg; }
+.sp-can[data-pos="left"]:hover,
+.sp-can[data-pos="right"]:hover { --s: 0.76; --y: -8px; }
+
+/* cart bar */
+.sp-cart {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1.5rem;
+  padding: 1rem var(--edge) max(1rem, env(safe-area-inset-bottom));
+  background: var(--plum); color: #f3ebe6;
+  box-shadow: 0 -12px 30px -12px rgba(43, 20, 35, 0.5);
+  animation: spUp 0.25s ease both;
+}
+.sp-cart p { line-height: 1.35; }
+.sp-cart small { display: block; font-size: 0.9rem; color: #d9cbd0; }
+.sp-cartActions { display: flex; align-items: center; gap: 1.25rem; }
+.sp-clear { border: 0; background: none; padding: 0; text-decoration: underline; font-size: 0.95rem; color: #d9cbd0; }
+.sp-cart :focus-visible { outline-color: #f3ebe6; }
+@keyframes spUp { from { translate: 0 100%; } }
+
+.sp-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+@media (max-width: 900px) {
+  .sp-hero { grid-template-columns: 1fr; min-height: auto; padding-top: 6rem; padding-bottom: 3rem; gap: 1rem; }
+  .sp-hero.has-cart { padding-bottom: 10rem; }
+  .sp-line { min-height: 0; }
+  .sp-cans { --h: clamp(15rem, 62vw, 24rem); }
+}
+@media (max-width: 520px) {
+  .py-page .sp-hero .sp-add { width: 100%; }
+  .sp-cart { flex-direction: column; align-items: stretch; }
+  .sp-cartActions { justify-content: space-between; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sp-text, .sp-cart { animation: none; }
+  .sp-can { transition: none; }
+}
