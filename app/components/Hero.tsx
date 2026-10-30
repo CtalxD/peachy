@@ -60,7 +60,7 @@ export function Hero({ nav }: { nav?: ReactNode }) {
           <strong>{active.name}.</strong> {active.line}
         </p>
         <div className="py-actions">
-          <Link href={`/shop/${active.slug}`} className="btn btn-lg btn-light">Shop {active.name}</Link>
+          <Link href={`/shop`} className="btn btn-lg btn-light">Shop {active.name}</Link>
           <a href="#flavors" className="btn btn-lg btn-outline">Compare flavors</a>
         </div>
       </div>
