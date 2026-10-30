@@ -2,30 +2,28 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, type CSSProperties } from "react";
-import { products, money, stageGradient, FREE_SHIPPING_AT, CAN_W, CAN_H } from "../data/products";
+import { products, money, stageGradient, CAN_W, CAN_H } from "../data/products";
+import { addToCart } from "../lib/cart";
 import { Navbar } from "./Navbar";
 
 const POS = ["front", "right", "left"] as const;
 
 export function ShopHero() {
+  const router = useRouter();
   const [i, setI] = useState(0);
-  const [cart, setCart] = useState<Record<string, number>>({});
-  const [status, setStatus] = useState("");
   const active = products[i];
 
-  const count = Object.values(cart).reduce((n, q) => n + q, 0);
-  const subtotal = products.reduce((n, p) => n + p.price * (cart[p.slug] ?? 0), 0);
-
+  /* Save the can, then go straight to checkout. */
   const add = () => {
-    setCart((c) => ({ ...c, [active.slug]: (c[active.slug] ?? 0) + 1 }));
-    setStatus(`${active.name} added to cart`);
+    addToCart(active.slug);
+    router.push("/checkout");
   };
 
   return (
     <section
-      className={`sp-hero${count > 0 ? " has-cart" : ""}`}
+      className="sp-hero"
       data-tone={active.tone}
       style={{ "--hero-ink": active.ink, "--hero-ink-soft": active.inkSoft } as CSSProperties}
     >
@@ -93,27 +91,6 @@ export function ShopHero() {
           );
         })}
       </div>
-
-      {count > 0 && (
-        <div className="sp-cart">
-          <p>
-            <b>{count} {count === 1 ? "can" : "cans"} &middot; {money(subtotal)}</b>
-            <small>
-              {subtotal >= FREE_SHIPPING_AT
-                ? "Free shipping unlocked. Checkout opens soon."
-                : `${money(FREE_SHIPPING_AT - subtotal)} away from free shipping. Checkout opens soon.`}
-            </small>
-          </p>
-          <div className="sp-cartActions">
-            <button type="button" className="sp-clear" onClick={() => { setCart({}); setStatus("Cart cleared"); }}>
-              Clear
-            </button>
-            <Link href="/#find" className="btn btn-light btn-sm">Get notified</Link>
-          </div>
-        </div>
-      )}
-
-      <p className="sp-sr" role="status" aria-live="polite">{status}</p>
     </section>
   );
 }
