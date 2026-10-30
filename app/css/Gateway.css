@@ -1,0 +1,37 @@
+/* Dummy payment gateway page. Deliberately plain so it reads as a separate site. */
+.gw {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: #eef0f3;
+  color: #1f2430;
+}
+.gw-card { width: min(28rem, 100%); background: #fff; box-shadow: 0 20px 50px -20px rgba(31, 36, 48, 0.35); }
+.gw-head { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 1.5rem; background: #1f2430; color: #fff; }
+.gw-head b { font-family: var(--font-body), sans-serif; font-size: 1.15rem; }
+.gw-head span { font-size: 0.8rem; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.55rem; background: #f5c542; color: #1f2430; }
+.gw-banner { margin: 0; padding: 0.8rem 1.5rem; font-size: 0.9rem; background: #fff6d6; color: #5c4a00; }
+.gw-body { display: flex; flex-direction: column; gap: 0.75rem; padding: 1.5rem; }
+.gw-body > p { margin: 0 0 0.5rem; color: #4b5260; }
+
+.gw-rows { margin: 0 0 0.75rem; }
+.gw-rows > div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.65rem 0; border-bottom: 1px solid #e3e6ea; }
+.gw-rows dt { color: #667085; }
+.gw-rows dd { margin: 0; font-weight: 600; text-align: right; overflow-wrap: anywhere; }
+.gw-amount dd { font-size: 1.35rem; }
+.gw-label { margin: 0.5rem 0 0; font-size: 0.85rem; font-weight: 650; color: #667085; text-transform: uppercase; letter-spacing: 0.06em; }
+
+.gw-btn {
+  display: flex; align-items: center; justify-content: center;
+  height: 3rem; padding: 0 1rem; border: 0; border-radius: 0;
+  font-weight: 650; font-size: 1rem;
+  background: transparent; color: #1f2430;
+  box-shadow: inset 0 0 0 1.5px #c3c8d0;
+}
+.gw-btn:hover { box-shadow: inset 0 0 0 1.5px #1f2430; }
+.gw-primary { background: #1f2430; color: #fff; box-shadow: none; }
+.gw-primary:hover { background: #333a4a; box-shadow: none; }
+.gw-cancel { border: 0; background: none; padding: 0.5rem 0 0; font-size: 0.95rem; text-decoration: underline; color: #667085; }
+.gw-cancel:hover { color: #1f2430; }
+.gw :focus-visible { outline-color: #1f2430; }
