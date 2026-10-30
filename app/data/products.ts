@@ -1,3 +1,4 @@
+//app/data/products.ts
 export type Product = {
   slug: string;
   name: string;
@@ -6,7 +7,7 @@ export type Product = {
   tea: number;
   peach: number;
   sweet: number;
-  /** Price in USD for one 12 fl oz can. Placeholder values, replace with real ones. */
+  /** Price in NPR for one 12 fl oz can. Placeholder values, replace with real ones. */
   price: number;
   /** Tea base, used by the shop filter. */
   type: "black" | "green";
@@ -39,7 +40,7 @@ export const products: Product[] = [
     line: "Assam black tea steeped long, white peach pressed in at the end. Start here.",
     notes: "Malty, ripe, clean finish",
     tea: 4, peach: 4, sweet: 2,
-    price: 3.5,
+    price: 400,
     type: "black",
     tag: "Best seller",
     image: "/Classic.png",
@@ -55,7 +56,7 @@ export const products: Product[] = [
     line: "Green tea layered with jasmine blossom. Quiet and floral; the peach arrives on the finish.",
     notes: "Floral, light, soft peach",
     tea: 2, peach: 3, sweet: 2,
-    price: 3.5,
+    price: 400,
     type: "green",
     tag: "Lightest",
     image: "/Jasmine.png",
@@ -71,7 +72,7 @@ export const products: Product[] = [
     line: "Strong black tea with fresh ginger that bites a little. Peach softens it without sweetening it away.",
     notes: "Bold, warming, dry",
     tea: 4, peach: 3, sweet: 1,
-    price: 3.75,
+    price: 425,
     type: "black",
     tag: "Boldest",
     image: "/Ginger.png",
@@ -103,16 +104,17 @@ export const packs: Pack[] = [
   { id: "24", cans: 24, label: "24-pack", off: 0.15 },
 ];
 
-/** Orders at or above this subtotal ship free. */
-export const FREE_SHIPPING_AT = 30;
+/** Orders at or above this subtotal (NPR) ship free. Placeholder, replace with the real value. */
+export const FREE_SHIPPING_AT = 2000;
 
-export const money = (n: number) => `$${n.toFixed(2)}`;
+/** Whole rupees, Indian-style digit grouping (1,00,000) which is how NPR is written. */
+export const money = (n: number) => `NPR ${Math.round(n).toLocaleString("en-IN")}`;
 
 export const packPrice = (unit: number, pack: Pack) =>
-  Math.round(unit * pack.cans * (1 - pack.off) * 100) / 100;
+  Math.round(unit * pack.cans * (1 - pack.off));
 
 /** Variety pack: 12 cans, 4 of each flavor, at the 12-pack discount. */
 export const VARIETY_CANS = 12;
 const avgUnit = products.reduce((sum, p) => sum + p.price, 0) / products.length;
 export const varietyPrice =
-  Math.round(avgUnit * VARIETY_CANS * (1 - packs[1].off) * 100) / 100;
+  Math.round(avgUnit * VARIETY_CANS * (1 - packs[1].off));
