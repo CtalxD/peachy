@@ -6,14 +6,14 @@ export const METHODS: {
   label: string;
   blurb: string;
   /**
-   * Path to the official logo file in /public, for example "/payments/stripe.svg".
+   * Path to the official logo file in /public, for example "/stripe.png".
    * Download the logos from each company's brand or press page and follow their usage rules.
    * Leave undefined to show the name as text.
    */
   logo?: string;
 }[] = [
-  { id: "stripe", label: "Stripe", blurb: "Credit or debit card" },
-  { id: "esewa", label: "eSewa", blurb: "eSewa wallet" },
+  { id: "stripe", label: "Stripe", blurb: "Credit or debit card", logo: "/stripe.png" },
+  { id: "esewa", label: "eSewa", blurb: "eSewa wallet", logo: "/esewa.png" },
 ];
 
 export const isMethod = (v: unknown): v is PaymentMethod => v === "stripe" || v === "esewa";
@@ -71,6 +71,16 @@ export function markPaid(): Order | null {
   return paid;
 }
 
+/**
+ * DUMMY. This is the one function to swap when going live.
+ *
+ * Real version: POST the order id to your server (for example /api/payments/create).
+ * - Stripe: the server creates a Checkout Session with success_url and cancel_url and returns its url.
+ * - eSewa: the server builds the signed form fields (amount, transaction id, success and failure urls)
+ *   and the browser POSTs them to eSewa's payment page, so this will return fields rather than a url.
+ * Never build or sign these in the browser, and confirm payment on the server (webhook or verify call),
+ * not from the return url.
+ */
 export async function createPayment(order: Order): Promise<{ url: string }> {
   await new Promise((r) => setTimeout(r, 500));
   return { url: `/pay/${order.method}?order=${encodeURIComponent(order.id)}` };
