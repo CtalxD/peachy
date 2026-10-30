@@ -31,8 +31,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={`${display.variable} ${body.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
+      {/* suppressHydrationWarning: browser extensions add attributes to <body> before React loads */}
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }
